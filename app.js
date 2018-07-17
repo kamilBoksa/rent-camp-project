@@ -1,21 +1,19 @@
 require("dotenv").config();
 
-var express       = require("express"),
-    app           = express(),
-    bodyParser    = require("body-parser"),
-    mongoose      = require("mongoose"),
-    seedDb        = require("./seeds"),
-    passport      = require("passport"),
-    flash         = require("connect-flash"),
-    LocalStrategy = require("passport-local"),
-    User          = require("./models/user"),
-    methodOverride = require("method-override");
+var express           = require("express"),
+    app               = express(),
+    bodyParser        = require("body-parser"),
+    mongoose          = require("mongoose"),
+    passport          = require("passport"),
+    flash             = require("connect-flash"),
+    LocalStrategy     = require("passport-local"),
+    User              = require("./models/user"),
+    methodOverride    = require("method-override");
     
 var commentRoutes    = require("./routes/comments"),
     campgroundRoutes = require("./routes/campgrounds"),
     indexRoutes      = require("./routes/index");
     
-// seedDb();
 var url = process.env.DATABASEURL || "mongodb://localhost/yelp_camp";
 mongoose.connect(url);
 
@@ -24,6 +22,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
+app.locals.moment = require("moment");
 
 //PASSPORT CONFIGURATION
 app.use(require("express-session")({
